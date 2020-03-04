@@ -1,8 +1,7 @@
 <template>
-  <div class="container">
-    <div>
-      <AppPrefectures :prefectures="prefectures" />
-    </div>
+  <div>
+    <h1>都道府県別の総人口推移グラフ</h1>
+    <AppPrefectures :prefectures="prefectures" />
   </div>
 </template>
 
@@ -32,12 +31,9 @@ export default {
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+h1 {
+  font-size: 36px;
+  margin-bottom: 24px;
   text-align: center;
 }
 </style>
