@@ -1,7 +1,8 @@
 {
   "name": "yumemi-codecheck",
+  "displayName": "都道府県別の総人口推移グラフ",
   "version": "1.0.0",
-  "description": "My neat Nuxt.js project",
+  "description": "都道府県別の総人口推移グラフを表示する SPA（Single Page Application）",
   "author": "toshifumiimanishi",
   "private": true,
   "scripts": {

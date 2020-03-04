@@ -1,6 +1,6 @@
-# yumemi-codecheck
+# 都道府県別の総人口推移グラフ
 
-> My neat Nuxt.js project
+> 都道府県別の総人口推移グラフを表示する SPA（Single Page Application）
 
 ## Build Setup
 
