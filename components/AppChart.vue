@@ -6,6 +6,13 @@
 import Highcharts from 'highcharts'
 import { Chart } from 'highcharts-vue'
 
+Highcharts.setOptions({
+  lang: {
+    numericSymbols: ['万', '億'],
+    numericSymbolMagnitude: 10000
+  },
+});
+
 export default {
   props: {
     totalPopulation: {
