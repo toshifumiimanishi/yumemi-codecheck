@@ -44,14 +44,16 @@ export default {
 
   methods: {
     updateCategoriesOnce() {
-      const isUpdated = this.chartOptions.xAxis.categories.length > 0;
+      const { xAxis } = this.chartOptions;
+      const isUpdated = xAxis.categories.length > 0;
 
       if (!isUpdated) {
         const totalPopulation = this.totalPopulation;
-        const newSeries = totalPopulation.map(population => {
+
+        totalPopulation.map(population => {
           const years = population.data.map(({ year }) => year);
 
-          this.chartOptions.xAxis.categories = years;
+          xAxis.categories = years;
         });
       }
     },
