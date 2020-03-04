@@ -5,7 +5,7 @@
       <ul class="prefecture_list">
         <li class="prefecture_item" v-for="prefecture in prefectures" :key="prefecture.prefCode">
           <label>
-            <input type="checkbox" :value="prefecture.prefCode" v-model="checkedPrefCode" @change="onCheckedPrefName">
+            <input type="checkbox" :value="prefecture.prefCode" :name="prefecture.prefName" @change="onCheckedPrefName">
             {{ prefecture.prefName }}
           </label>
         </li>
@@ -15,52 +15,29 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   props: {
     prefectures: {
       type: Array
     }
   },
+
   data() {
     return {
-      checkedPrefCode: [],
       totalPopulation: []
     }
   },
 
   methods: {
-    async fetchPopulationComposition(prefCode) {
-      const { data: { result } } = await axios.get(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`, {
-        headers: {
-         'X-API-KEY': process.env.API_KEY
-        }
-      });
-      const totalPopulation = result.data[0];
-
-      this.totalPopulation = [...this.totalPopulation, {
-        prefCode,
-        data: totalPopulation.data
-      }];
-    },
-
-    removeTotalPopulation(prefCode) {
-      const index = this.totalPopulation.findIndex(population => {
-        return population.prefCode === prefCode;
-      });
-
-      this.totalPopulation.splice(index, 1);
-    },
-
     onCheckedPrefName(event) {
+      const prefName = event.currentTarget.name;
       const prefCode = event.currentTarget.value;
       const isChecked = event.currentTarget.checked;
 
       if (isChecked) {
-        this.fetchPopulationComposition(prefCode);
+        this.$emit('check', { prefName, prefCode });
       } else {
-        this.removeTotalPopulation(prefCode);
+        this.$emit('uncheck', prefCode);
       }
     }
   }
