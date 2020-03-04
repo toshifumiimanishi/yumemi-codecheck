@@ -48,6 +48,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    baseURL: 'https://opendata.resas-portal.go.jp/api/v1'
   },
   /*
   ** Build configuration

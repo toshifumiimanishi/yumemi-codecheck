@@ -25,7 +25,7 @@ export default {
 
   async asyncData({ app }) {
     const { result } = await app.$axios
-      .$get('https://opendata.resas-portal.go.jp/api/v1/prefectures', {
+      .$get('/prefectures', {
         headers: {
           'X-API-KEY': process.env.API_KEY
         }
@@ -36,7 +36,7 @@ export default {
 
   methods: {
     async fetchPopulationComposition({ prefName, prefCode }) {
-      const { result } = await this.$axios.$get(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`, {
+      const { result } = await this.$axios.$get(`/population/composition/perYear?prefCode=${prefCode}`, {
         headers: {
          'X-API-KEY': process.env.API_KEY
         }
