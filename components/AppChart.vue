@@ -33,15 +33,20 @@ export default {
         title: {
           text: '都道府県別の総人口推移グラフ'
         },
+        legend: {
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'middle'
+        },
         xAxis: {
           title: {
-            text: '年度',
+            text: '年度（年）',
           },
           categories: []
         },
         yAxis: {
           title: {
-            text: '人口数'
+            text: '人口数（人）'
           }
         },
         series: []
