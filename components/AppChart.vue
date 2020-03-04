@@ -7,9 +7,16 @@ import Highcharts from 'highcharts'
 import { Chart } from 'highcharts-vue'
 
 export default {
+  props: {
+    totalPopulation: {
+      type: Array
+    }
+  },
+
   components: {
     highcharts: Chart
   },
+
   data() {
     return {
       chartOptions: {
@@ -23,21 +30,52 @@ export default {
           title: {
             text: '年度',
           },
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+          categories: []
         },
         yAxis: {
           title: {
             text: '人口数'
           }
         },
-        series: [
-          {
-            name: 'Kyoto',
-            data: [15, 0, 8, 2, 6, 4, 5, 5, 4, 9, 10, 12],
-          }
-        ]
+        series: []
       }
     };
+  },
+
+  methods: {
+    updateCategoriesOnce() {
+      const isUpdated = this.chartOptions.xAxis.categories.length > 0;
+
+      if (!isUpdated) {
+        const totalPopulation = this.totalPopulation;
+        const newSeries = totalPopulation.map(population => {
+          const years = population.data.map(({ year }) => year);
+
+          this.chartOptions.xAxis.categories = years;
+        });
+      }
+    },
+
+    updateSeries() {
+      const totalPopulation = this.totalPopulation;
+      const newSeries = totalPopulation.map(population => {
+        const data = population.data.map(({ value }) => value);
+
+        return {
+          name: population.prefName,
+          data
+        }
+      })
+
+      this.chartOptions.series = newSeries;
+    }
+  },
+
+  watch: {
+    totalPopulation() {
+      this.updateCategoriesOnce();
+      this.updateSeries();
+    }
   }
 };
 </script>

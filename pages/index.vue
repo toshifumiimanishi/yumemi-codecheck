@@ -2,7 +2,7 @@
   <div class="wrapper">
     <h1>都道府県別の総人口推移グラフ</h1>
     <AppPrefectures :prefectures="prefectures" @check="fetchPopulationComposition" @uncheck="removeTotalPopulation" />
-    <AppChart />
+    <AppChart :total-population="totalPopulation" />
   </div>
 </template>
 
