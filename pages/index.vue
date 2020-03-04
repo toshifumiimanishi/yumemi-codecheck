@@ -2,15 +2,18 @@
   <div>
     <h1>都道府県別の総人口推移グラフ</h1>
     <AppPrefectures :prefectures="prefectures" />
+    <AppChart />
   </div>
 </template>
 
 <script>
 import AppPrefectures from '~/components/AppPrefectures.vue';
+import AppChart from '~/components/AppChart.vue';
 
 export default {
   components: {
-    AppPrefectures
+    AppPrefectures,
+    AppChart
   },
   data() {
     return {
