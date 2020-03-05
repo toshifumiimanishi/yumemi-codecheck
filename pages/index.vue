@@ -27,7 +27,7 @@ export default {
     const { result } = await app.$axios
       .$get('/prefectures', {
         headers: {
-          'X-API-KEY': process.env.API_KEY
+          'X-API-KEY': process.env.RESAS_API_KEY
         }
       });
 
@@ -38,7 +38,7 @@ export default {
     async fetchPopulationComposition({ prefName, prefCode }) {
       const { result } = await this.$axios.$get(`/population/composition/perYear?prefCode=${prefCode}`, {
         headers: {
-         'X-API-KEY': process.env.API_KEY
+         'X-API-KEY': process.env.RESAS_API_KEY
         }
       });
 
