@@ -2,6 +2,9 @@ import pkg from './package'
 
 export default {
   mode: 'spa',
+  env: {
+    RESAS_API_KEY: process.env.RESAS_API_KEY
+  },
   /*
   ** Headers of the page
   */
