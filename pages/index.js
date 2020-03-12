@@ -1,11 +1,23 @@
 import fetch from 'node-fetch';
+import styled from '@emotion/styled';
 import AppPrefectures from '../components/AppPrefectures';
+
+const Wrapper = styled.div`
+  padding: 32px;
+`;
+
+const H1 = styled.h1`
+  margin-bottom: 24px;
+  font-size: 32px;
+  text-align: center;
+`;
 
 function Home({ result }) {
   return (
-    <div>
+    <Wrapper>
+      <H1>都道府県別の総人口推移グラフ</H1>
       <AppPrefectures prefectures={result} />
-    </div>
+    </Wrapper>
   );
 }
 
