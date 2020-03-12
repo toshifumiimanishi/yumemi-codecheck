@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 
-const Section = styled.section`
+const PrefectureContainer = styled.section`
   margin: auto;
   width: 100%;
   max-width: 960px;
 `;
 
-const H2 = styled.h2`
+const PrefectureHeading = styled.h2`
   display: inline-block;
   margin-bottom: 24px;
   padding: 0 8px;
@@ -15,23 +15,31 @@ const H2 = styled.h2`
   color: #fff;
 `;
 
-const List = styled.li`
+const PrefectureList = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, auto));
   gap: 24px;
 `;
 
-const AppPrefectures = () => (
-  <Section>
-    <H2>都道府県</H2>
-    <ul>
-      <List>
-        <label>
-          <input type="checkbox" />
-        </label>
-      </List>
-    </ul>
-  </Section>
-);
+function AppPrefectures({ prefectures }) {
+
+  return (
+    <PrefectureContainer>
+      <PrefectureHeading>都道府県</PrefectureHeading>
+      <PrefectureList>
+        {
+          prefectures.map(prefecture => (
+            <li key={prefecture.prefCode}>
+              <label>
+                <input type="checkbox" />
+                {prefecture.prefName}
+              </label>
+            </li>
+          ))
+        }
+      </PrefectureList>
+    </PrefectureContainer>
+  )
+};
 
 export default AppPrefectures;
