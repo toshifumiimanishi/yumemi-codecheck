@@ -1,3 +1,4 @@
+import fetch from 'node-fetch';
 import styled from '@emotion/styled';
 
 const PrefectureContainer = styled.section`
@@ -23,6 +24,30 @@ const PrefectureList = styled.ul`
 
 function AppPrefectures({ prefectures }) {
 
+  const fetchPopulationComposition = async ({ prefName, prefCode }) => {
+    const res = await fetch(
+      `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`,
+      {
+        headers: {
+          'X-API-KEY': process.env.RESAS_API_KEY
+        }
+      }
+    );
+    const { result } = await res.json();
+    const totalPopulation = result.data[0];
+  };
+
+  const handleChange = (event) => {
+    const prefName = event.currentTarget.name;
+    const prefCode = event.currentTarget.value;
+    const isChecked = event.currentTarget.checked;
+
+    if (isChecked) {
+      fetchPopulationComposition({ prefName, prefCode });
+    } else {
+    }
+  };
+
   return (
     <PrefectureContainer>
       <PrefectureHeading>都道府県</PrefectureHeading>
@@ -31,7 +56,7 @@ function AppPrefectures({ prefectures }) {
           prefectures.map(prefecture => (
             <li key={prefecture.prefCode}>
               <label>
-                <input type="checkbox" />
+                <input type="checkbox" value={prefecture.prefCode} name={prefecture.prefName} onChange={handleChange} />
                 {prefecture.prefName}
               </label>
             </li>
