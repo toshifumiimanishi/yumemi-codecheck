@@ -19,6 +19,8 @@
   },
   "devDependencies": {
     "@nuxtjs/dotenv": "^1.4.1",
+    "@vue/test-utils": "^1.0.0-beta.32",
+    "jest": "^25.1.0",
     "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2"
   }
