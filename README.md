@@ -20,3 +20,7 @@ $ yarn generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+## 注意事項
+
+あらかじめ [RESAS API](https://opendata.resas-portal.go.jp/) の利用登録を行ない、API Key を発行してください。
