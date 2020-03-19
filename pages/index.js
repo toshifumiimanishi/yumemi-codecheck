@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import fetch from 'node-fetch';
 import styled from '@emotion/styled';
 import AppPrefectures from '../components/AppPrefectures';
@@ -13,10 +14,12 @@ const H1 = styled.h1`
 `;
 
 function Home({ result }) {
+  const [totalPopulation, setTotalPopulation] = useState([]);
+
   return (
     <Wrapper>
       <H1>都道府県別の総人口推移グラフ</H1>
-      <AppPrefectures prefectures={result} />
+      <AppPrefectures prefectures={result} totalPopulation={totalPopulation} setTotalPopulation={setTotalPopulation} />
     </Wrapper>
   );
 }

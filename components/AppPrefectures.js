@@ -22,7 +22,7 @@ const PrefectureList = styled.ul`
   gap: 24px;
 `;
 
-function AppPrefectures({ prefectures }) {
+function AppPrefectures({ prefectures, totalPopulation, setTotalPopulation }) {
 
   const fetchPopulationComposition = async ({ prefName, prefCode }) => {
     const res = await fetch(
@@ -34,7 +34,23 @@ function AppPrefectures({ prefectures }) {
       }
     );
     const { result } = await res.json();
-    const totalPopulation = result.data[0];
+    const newTotalPopulation = result.data[0];
+
+    setTotalPopulation([...totalPopulation, {
+      prefName,
+      prefCode,
+      data: newTotalPopulation.data
+    }]);
+  };
+
+  const removeTotalPopulation = (prefCode) => {
+    const index = totalPopulation.findIndex(population => {
+      return population.prefCode === prefCode;
+    });
+    const newTotalPopulation = [...totalPopulation];
+
+    newTotalPopulation.splice(index, 1);
+    setTotalPopulation(newTotalPopulation);
   };
 
   const handleChange = (event) => {
@@ -45,6 +61,7 @@ function AppPrefectures({ prefectures }) {
     if (isChecked) {
       fetchPopulationComposition({ prefName, prefCode });
     } else {
+      removeTotalPopulation(prefCode);
     }
   };
 
