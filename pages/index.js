@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import fetch from 'node-fetch';
 import styled from '@emotion/styled';
 import AppPrefectures from '../components/AppPrefectures';
+import AppChart from '../components/AppChart';
 
 const Wrapper = styled.div`
   padding: 32px;
@@ -20,6 +21,7 @@ function Home({ result }) {
     <Wrapper>
       <H1>都道府県別の総人口推移グラフ</H1>
       <AppPrefectures prefectures={result} totalPopulation={totalPopulation} setTotalPopulation={setTotalPopulation} />
+      <AppChart totalPopulation={totalPopulation} useEffect={useEffect} />
     </Wrapper>
   );
 }
