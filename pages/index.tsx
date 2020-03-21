@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import styled from '@emotion/styled';
 import AppPrefectures from '../components/AppPrefectures';
 import AppChart from '../components/AppChart';
+import { Prefecture } from '../interfaces';
 
 const Wrapper = styled.div`
   padding: 32px;
@@ -14,7 +15,11 @@ const H1 = styled.h1`
   text-align: center;
 `;
 
-function Home({ result }) {
+type Props = {
+  result: Prefecture[]
+};
+
+const Home: React.FC<Props> = ({ result }) => {
   const [totalPopulation, setTotalPopulation] = useState([]);
 
   return (
@@ -24,7 +29,7 @@ function Home({ result }) {
       <AppChart totalPopulation={totalPopulation} useEffect={useEffect} />
     </Wrapper>
   );
-}
+};
 
 export async function getStaticProps() {
   const res = await fetch(
