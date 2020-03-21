@@ -1,8 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { TotalPopulation } from '../interfaces';
 
-function AppChart({ totalPopulation, useEffect }) {
+type Props = {
+  totalPopulation: TotalPopulation[]
+};
+
+const AppChart: React.FC<Props> = ({ totalPopulation }) => {
   const [options, setOptions] = useState({
     chart: {
       type: 'spline'
@@ -72,6 +77,6 @@ function AppChart({ totalPopulation, useEffect }) {
   }, [totalPopulation]);
 
   return <HighchartsReact highcharts={Highcharts} options={options} />;
-}
+};
 
 export default AppChart;

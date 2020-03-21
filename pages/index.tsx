@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import fetch from 'node-fetch';
 import styled from '@emotion/styled';
 import AppPrefectures from '../components/AppPrefectures';
@@ -55,7 +55,7 @@ const Home: React.FC<Props> = ({ result }) => {
     <Wrapper>
       <H1>都道府県別の総人口推移グラフ</H1>
       <AppPrefectures prefectures={result} fetchPopulationComposition={fetchPopulationComposition} removeTotalPopulation={removeTotalPopulation} />
-      <AppChart totalPopulation={totalPopulation} useEffect={useEffect} />
+      <AppChart totalPopulation={totalPopulation} />
     </Wrapper>
   );
 };
