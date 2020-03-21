@@ -1,5 +1,5 @@
-import fetch from 'node-fetch';
 import styled from '@emotion/styled';
+import { Prefecture } from '../interfaces';
 
 const PrefectureContainer = styled.section`
   margin: auto;
@@ -22,37 +22,13 @@ const PrefectureList = styled.ul`
   gap: 24px;
 `;
 
-function AppPrefectures({ prefectures, totalPopulation, setTotalPopulation }) {
+type Props = {
+  prefectures: Prefecture[],
+  fetchPopulationComposition: (prefecture: Prefecture) => void,
+  removeTotalPopulation: (prefCode: number) => void
+};
 
-  const fetchPopulationComposition = async ({ prefName, prefCode }) => {
-    const res = await fetch(
-      `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`,
-      {
-        headers: {
-          'X-API-KEY': process.env.RESAS_API_KEY
-        }
-      }
-    );
-    const { result } = await res.json();
-    const newTotalPopulation = result.data[0];
-
-    setTotalPopulation([...totalPopulation, {
-      prefName,
-      prefCode,
-      data: newTotalPopulation.data
-    }]);
-  };
-
-  const removeTotalPopulation = (prefCode) => {
-    const index = totalPopulation.findIndex(population => {
-      return population.prefCode === prefCode;
-    });
-    const newTotalPopulation = [...totalPopulation];
-
-    newTotalPopulation.splice(index, 1);
-    setTotalPopulation(newTotalPopulation);
-  };
-
+const AppPrefectures: React.FC<Props> = ({ prefectures, fetchPopulationComposition, removeTotalPopulation }) => {
   const handleChange = (event) => {
     const prefName = event.currentTarget.name;
     const prefCode = event.currentTarget.value;
