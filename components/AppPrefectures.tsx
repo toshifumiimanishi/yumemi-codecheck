@@ -1,17 +1,17 @@
-import { ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { Prefecture } from '../interfaces';
 
 type ContainerProps = {
   prefectures: Prefecture[],
-  fetchPopulationComposition?: (prefecture: Prefecture) => void,
-  removeTotalPopulation?: (prefCode: number) => void
+  fetchPopulationComposition: (prefecture: Prefecture) => void,
+  removeTotalPopulation: (prefCode: number) => void
 };
 
 type Props = {
   className?: string,
-  handleChange: (event: ChangeEvent<HTMLInputElement>) => void
-} & ContainerProps;
+  prefectures: Prefecture[],
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+};
 
 const AppPrefectures: React.FC<Props> = ({
   className,
