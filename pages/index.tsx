@@ -3,23 +3,44 @@ import fetch from 'node-fetch';
 import styled from '@emotion/styled';
 import AppPrefectures from '../components/AppPrefectures';
 import AppChart from '../components/AppChart';
-import { Prefecture } from '../interfaces';
+import { Prefecture, TotalPopulation } from '../interfaces';
 
-const Wrapper = styled.div`
-  padding: 32px;
-`;
-
-const H1 = styled.h1`
-  margin-bottom: 24px;
-  font-size: 32px;
-  text-align: center;
-`;
-
-type Props = {
-  result: Prefecture[]
+type ContainerProps = {
+  fetchPopulationComposition: (prefecture: Prefecture) => void,
+  removeTotalPopulation: (prefCode: number) => void
 };
 
-const Home: React.FC<Props> = ({ result }) => {
+type Props = {
+  className: string,
+  result: Prefecture[],
+  totalPopulation: TotalPopulation[],
+} & ContainerProps;
+
+const Home: React.FC<Props> = (props) => (
+  <div className={props.className}>
+    <h1>都道府県別の総人口推移グラフ</h1>
+    <AppPrefectures
+      prefectures={props.result}
+      fetchPopulationComposition={props.fetchPopulationComposition}
+      removeTotalPopulation={props.removeTotalPopulation}
+    />
+    <AppChart totalPopulation={props.totalPopulation} />
+  </div>
+);
+
+const StyledHome = styled(Home)`
+  > .wrapper {
+    padding: 32px;
+  }
+
+  > h1 {
+    margin-bottom: 24px;
+    font-size: 32px;
+    text-align: center;
+  }
+`
+
+const Container: React.FC<ContainerProps> = (props) => {
   const [totalPopulation, setTotalPopulation] = useState([]);
 
   const fetchPopulationComposition = async ({ prefName, prefCode }) => {
@@ -52,12 +73,12 @@ const Home: React.FC<Props> = ({ result }) => {
   };
 
   return (
-    <Wrapper>
-      <H1>都道府県別の総人口推移グラフ</H1>
-      <AppPrefectures prefectures={result} fetchPopulationComposition={fetchPopulationComposition} removeTotalPopulation={removeTotalPopulation} />
-      <AppChart totalPopulation={totalPopulation} />
-    </Wrapper>
-  );
+    <StyledHome
+      {...props}
+      fetchPopulationComposition={fetchPopulationComposition}
+      removeTotalPopulation={removeTotalPopulation}
+    />
+  )
 };
 
 export async function getStaticProps() {
@@ -78,4 +99,4 @@ export async function getStaticProps() {
   };
 }
 
-export default Home;
+export default Container;
