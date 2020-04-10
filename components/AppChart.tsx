@@ -3,11 +3,19 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { TotalPopulation } from '../interfaces';
 
-type Props = {
-  totalPopulation: TotalPopulation[]
+type ContainerProps = {
+  totalPopulation?: TotalPopulation[]
 };
 
-const AppChart: React.FC<Props> = ({ totalPopulation }) => {
+type Props = {
+  options: {}
+} & ContainerProps;
+
+const AppChart: React.FC<Props> = ({ options }) => (
+  <HighchartsReact highcharts={Highcharts} options={options} />
+);
+
+const ContainerAppChart: React.FC<ContainerProps> = ({ totalPopulation }) => {
   const [options, setOptions] = useState({
     chart: {
       type: 'spline'
@@ -76,7 +84,7 @@ const AppChart: React.FC<Props> = ({ totalPopulation }) => {
     updateSeries();
   }, [totalPopulation]);
 
-  return <HighchartsReact highcharts={Highcharts} options={options} />;
+  return <AppChart options={options} />;
 };
 
-export default AppChart;
+export default ContainerAppChart;

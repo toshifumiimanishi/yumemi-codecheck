@@ -1,35 +1,41 @@
 import { useState } from 'react';
 import fetch from 'node-fetch';
 import styled from '@emotion/styled';
-import AppPrefectures from '../components/AppPrefectures';
-import AppChart from '../components/AppChart';
+import ContainerAppPrefectures from '../components/AppPrefectures';
+import ContainerAppChart from '../components/AppChart';
 import { Prefecture, TotalPopulation } from '../interfaces';
 
 type ContainerProps = {
-  fetchPopulationComposition: (prefecture: Prefecture) => void,
-  removeTotalPopulation: (prefCode: number) => void
+  result: Prefecture[],
 };
 
 type Props = {
-  className: string,
-  result: Prefecture[],
+  className?: string,
   totalPopulation: TotalPopulation[],
+  fetchPopulationComposition: (prefecture: Prefecture) => void,
+  removeTotalPopulation: (prefCode: number) => void,
 } & ContainerProps;
 
-const Home: React.FC<Props> = (props) => (
-  <div className={props.className}>
+const Home: React.FC<Props> = ({
+  result,
+  className,
+  totalPopulation,
+  fetchPopulationComposition,
+  removeTotalPopulation
+}) => (
+  <div className={className}>
     <h1>都道府県別の総人口推移グラフ</h1>
-    <AppPrefectures
-      prefectures={props.result}
-      fetchPopulationComposition={props.fetchPopulationComposition}
-      removeTotalPopulation={props.removeTotalPopulation}
+    <ContainerAppPrefectures
+      prefectures={result}
+      fetchPopulationComposition={fetchPopulationComposition}
+      removeTotalPopulation={removeTotalPopulation}
     />
-    <AppChart totalPopulation={props.totalPopulation} />
+    <ContainerAppChart totalPopulation={totalPopulation} />
   </div>
 );
 
 const StyledHome = styled(Home)`
-  > .wrapper {
+  &.wrapper {
     padding: 32px;
   }
 
@@ -40,7 +46,7 @@ const StyledHome = styled(Home)`
   }
 `
 
-const Container: React.FC<ContainerProps> = (props) => {
+const ContainerHome: React.FC<ContainerProps> = ({ result }) => {
   const [totalPopulation, setTotalPopulation] = useState([]);
 
   const fetchPopulationComposition = async ({ prefName, prefCode }) => {
@@ -74,7 +80,9 @@ const Container: React.FC<ContainerProps> = (props) => {
 
   return (
     <StyledHome
-      {...props}
+      result={result}
+      className="wrapper"
+      totalPopulation={totalPopulation}
       fetchPopulationComposition={fetchPopulationComposition}
       removeTotalPopulation={removeTotalPopulation}
     />
@@ -99,4 +107,4 @@ export async function getStaticProps() {
   };
 }
 
-export default Container;
+export default ContainerHome;
