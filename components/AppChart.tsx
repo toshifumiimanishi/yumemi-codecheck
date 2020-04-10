@@ -45,23 +45,20 @@ const ContainerAppChart: React.FC<ContainerProps> = ({ totalPopulation }) => {
   const initializeHighcharts = () => {
     const newOptions = {...options};
     const { xAxis } = newOptions;
-    const isInitialized = xAxis.categories.length > 0;
 
-    if (!isInitialized) {
-      Highcharts.setOptions({
-        lang: {
-          numericSymbols: ['万', '億'],
-          numericSymbolMagnitude: 10000
-        },
-      });
+    Highcharts.setOptions({
+      lang: {
+        numericSymbols: ['万', '億'],
+        numericSymbolMagnitude: 10000
+      },
+    });
 
-      totalPopulation.map(population => {
-        const years = population.data.map(({ year }) => year);
+    totalPopulation.map(population => {
+      const years = population.data.map(({ year }) => year);
 
-        xAxis.categories = years;
-        setOptions(newOptions);
-      });
-    }
+      xAxis.categories = years;
+      setOptions(newOptions);
+    });
   };
 
   const updateSeries = () => {
@@ -80,9 +77,12 @@ const ContainerAppChart: React.FC<ContainerProps> = ({ totalPopulation }) => {
   };
 
   useEffect(() => {
-    initializeHighcharts();
     updateSeries();
   }, [totalPopulation]);
+
+  useEffect(() => {
+    initializeHighcharts();
+  }, []);
 
   return <AppChart options={options} />;
 };
