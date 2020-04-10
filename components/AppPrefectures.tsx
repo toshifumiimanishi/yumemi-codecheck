@@ -1,34 +1,66 @@
+import { ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { Prefecture } from '../interfaces';
 
-const PrefectureContainer = styled.section`
+type ContainerProps = {
+  prefectures: Prefecture[],
+  fetchPopulationComposition?: (prefecture: Prefecture) => void,
+  removeTotalPopulation?: (prefCode: number) => void
+};
+
+type Props = {
+  className?: string,
+  handleChange: (event: ChangeEvent<HTMLInputElement>) => void
+} & ContainerProps;
+
+const AppPrefectures: React.FC<Props> = ({
+  className,
+  prefectures,
+  handleChange
+}) => (
+  <section className={className}>
+    <h2>都道府県</h2>
+    <ul>
+      {
+        prefectures.map(prefecture => (
+          <li key={prefecture.prefCode}>
+            <label>
+              <input type="checkbox" value={prefecture.prefCode} name={prefecture.prefName} onChange={handleChange} />
+              {prefecture.prefName}
+            </label>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+);
+
+const StyledAppPrefectures = styled(AppPrefectures)`
   margin: auto;
   width: 100%;
   max-width: 960px;
-`;
 
-const PrefectureHeading = styled.h2`
-  display: inline-block;
-  margin-bottom: 24px;
-  padding: 0 8px;
-  font-size: 24px;
-  background-color: #000;
-  color: #fff;
-`;
+  > h2 {
+    display: inline-block;
+    margin-bottom: 24px;
+    padding: 0 8px;
+    font-size: 24px;
+    background-color: #000;
+    color: #fff;
+  }
 
-const PrefectureList = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, auto));
-  gap: 24px;
-`;
+  > ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, auto));
+    gap: 24px;
+  }
+`
 
-type Props = {
-  prefectures: Prefecture[],
-  fetchPopulationComposition: (prefecture: Prefecture) => void,
-  removeTotalPopulation: (prefCode: number) => void
-};
-
-const AppPrefectures: React.FC<Props> = ({ prefectures, fetchPopulationComposition, removeTotalPopulation }) => {
+const ContainerAppPrefectures: React.FC<ContainerProps> = ({
+  prefectures,
+  fetchPopulationComposition,
+  removeTotalPopulation
+}) => {
   const handleChange = (event) => {
     const prefName = event.currentTarget.name;
     const prefCode = event.currentTarget.value;
@@ -42,22 +74,11 @@ const AppPrefectures: React.FC<Props> = ({ prefectures, fetchPopulationCompositi
   };
 
   return (
-    <PrefectureContainer>
-      <PrefectureHeading>都道府県</PrefectureHeading>
-      <PrefectureList>
-        {
-          prefectures.map(prefecture => (
-            <li key={prefecture.prefCode}>
-              <label>
-                <input type="checkbox" value={prefecture.prefCode} name={prefecture.prefName} onChange={handleChange} />
-                {prefecture.prefName}
-              </label>
-            </li>
-          ))
-        }
-      </PrefectureList>
-    </PrefectureContainer>
+    <StyledAppPrefectures
+      prefectures={prefectures}
+      handleChange={handleChange}
+    />
   )
 };
 
-export default AppPrefectures;
+export default ContainerAppPrefectures;

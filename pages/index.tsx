@@ -1,25 +1,52 @@
 import { useState } from 'react';
 import fetch from 'node-fetch';
 import styled from '@emotion/styled';
-import AppPrefectures from '../components/AppPrefectures';
-import AppChart from '../components/AppChart';
-import { Prefecture } from '../interfaces';
+import ContainerAppPrefectures from '../components/AppPrefectures';
+import ContainerAppChart from '../components/AppChart';
+import { Prefecture, TotalPopulation } from '../interfaces';
 
-const Wrapper = styled.div`
-  padding: 32px;
-`;
-
-const H1 = styled.h1`
-  margin-bottom: 24px;
-  font-size: 32px;
-  text-align: center;
-`;
-
-type Props = {
-  result: Prefecture[]
+type ContainerProps = {
+  result: Prefecture[],
 };
 
-const Home: React.FC<Props> = ({ result }) => {
+type Props = {
+  className?: string,
+  totalPopulation: TotalPopulation[],
+  fetchPopulationComposition: (prefecture: Prefecture) => void,
+  removeTotalPopulation: (prefCode: number) => void,
+} & ContainerProps;
+
+const Home: React.FC<Props> = ({
+  result,
+  className,
+  totalPopulation,
+  fetchPopulationComposition,
+  removeTotalPopulation
+}) => (
+  <div className={className}>
+    <h1>都道府県別の総人口推移グラフ</h1>
+    <ContainerAppPrefectures
+      prefectures={result}
+      fetchPopulationComposition={fetchPopulationComposition}
+      removeTotalPopulation={removeTotalPopulation}
+    />
+    <ContainerAppChart totalPopulation={totalPopulation} />
+  </div>
+);
+
+const StyledHome = styled(Home)`
+  &.wrapper {
+    padding: 32px;
+  }
+
+  > h1 {
+    margin-bottom: 24px;
+    font-size: 32px;
+    text-align: center;
+  }
+`
+
+const ContainerHome: React.FC<ContainerProps> = ({ result }) => {
   const [totalPopulation, setTotalPopulation] = useState([]);
 
   const fetchPopulationComposition = async ({ prefName, prefCode }) => {
@@ -52,12 +79,14 @@ const Home: React.FC<Props> = ({ result }) => {
   };
 
   return (
-    <Wrapper>
-      <H1>都道府県別の総人口推移グラフ</H1>
-      <AppPrefectures prefectures={result} fetchPopulationComposition={fetchPopulationComposition} removeTotalPopulation={removeTotalPopulation} />
-      <AppChart totalPopulation={totalPopulation} />
-    </Wrapper>
-  );
+    <StyledHome
+      result={result}
+      className="wrapper"
+      totalPopulation={totalPopulation}
+      fetchPopulationComposition={fetchPopulationComposition}
+      removeTotalPopulation={removeTotalPopulation}
+    />
+  )
 };
 
 export async function getStaticProps() {
@@ -78,4 +107,4 @@ export async function getStaticProps() {
   };
 }
 
-export default Home;
+export default ContainerHome;

@@ -3,11 +3,19 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { TotalPopulation } from '../interfaces';
 
-type Props = {
-  totalPopulation: TotalPopulation[]
+type ContainerProps = {
+  totalPopulation?: TotalPopulation[]
 };
 
-const AppChart: React.FC<Props> = ({ totalPopulation }) => {
+type Props = {
+  options: {}
+} & ContainerProps;
+
+const AppChart: React.FC<Props> = ({ options }) => (
+  <HighchartsReact highcharts={Highcharts} options={options} />
+);
+
+const ContainerAppChart: React.FC<ContainerProps> = ({ totalPopulation }) => {
   const [options, setOptions] = useState({
     chart: {
       type: 'spline'
@@ -37,23 +45,20 @@ const AppChart: React.FC<Props> = ({ totalPopulation }) => {
   const initializeHighcharts = () => {
     const newOptions = {...options};
     const { xAxis } = newOptions;
-    const isInitialized = xAxis.categories.length > 0;
 
-    if (!isInitialized) {
-      Highcharts.setOptions({
-        lang: {
-          numericSymbols: ['万', '億'],
-          numericSymbolMagnitude: 10000
-        },
-      });
+    Highcharts.setOptions({
+      lang: {
+        numericSymbols: ['万', '億'],
+        numericSymbolMagnitude: 10000
+      },
+    });
 
-      totalPopulation.map(population => {
-        const years = population.data.map(({ year }) => year);
+    totalPopulation.map(population => {
+      const years = population.data.map(({ year }) => year);
 
-        xAxis.categories = years;
-        setOptions(newOptions);
-      });
-    }
+      xAxis.categories = years;
+      setOptions(newOptions);
+    });
   };
 
   const updateSeries = () => {
@@ -72,11 +77,14 @@ const AppChart: React.FC<Props> = ({ totalPopulation }) => {
   };
 
   useEffect(() => {
-    initializeHighcharts();
     updateSeries();
   }, [totalPopulation]);
 
-  return <HighchartsReact highcharts={Highcharts} options={options} />;
+  useEffect(() => {
+    initializeHighcharts();
+  }, []);
+
+  return <AppChart options={options} />;
 };
 
-export default AppChart;
+export default ContainerAppChart;
