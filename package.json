@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "format:ts": "prettier --write --parser=babel-ts \"**/*.{ts,tsx}\""
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@types/node": "^13.9.2",
     "@types/react": "^16.9.25",
+    "prettier": "2.0.4",
     "typescript": "^3.8.3"
   }
 }
