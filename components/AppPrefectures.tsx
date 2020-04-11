@@ -1,39 +1,42 @@
-import styled from '@emotion/styled';
-import { Prefecture } from '../interfaces';
+import styled from '@emotion/styled'
+import { Prefecture } from '../interfaces'
 
 type ContainerProps = {
-  prefectures: Prefecture[],
-  fetchPopulationComposition: (prefecture: Prefecture) => void,
+  prefectures: Prefecture[]
+  fetchPopulationComposition: (prefecture: Prefecture) => void
   removeTotalPopulation: (prefCode: number) => void
-};
+}
 
 type Props = {
-  className?: string,
-  prefectures: Prefecture[],
+  className?: string
+  prefectures: Prefecture[]
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-};
+}
 
 const AppPrefectures: React.FC<Props> = ({
   className,
   prefectures,
-  handleChange
+  handleChange,
 }) => (
   <section className={className}>
     <h2>都道府県</h2>
     <ul>
-      {
-        prefectures.map(prefecture => (
-          <li key={prefecture.prefCode}>
-            <label>
-              <input type="checkbox" value={prefecture.prefCode} name={prefecture.prefName} onChange={handleChange} />
-              {prefecture.prefName}
-            </label>
-          </li>
-        ))
-      }
+      {prefectures.map((prefecture) => (
+        <li key={prefecture.prefCode}>
+          <label>
+            <input
+              type="checkbox"
+              value={prefecture.prefCode}
+              name={prefecture.prefName}
+              onChange={handleChange}
+            />
+            {prefecture.prefName}
+          </label>
+        </li>
+      ))}
     </ul>
   </section>
-);
+)
 
 const StyledAppPrefectures = styled(AppPrefectures)`
   margin: auto;
@@ -59,19 +62,19 @@ const StyledAppPrefectures = styled(AppPrefectures)`
 const ContainerAppPrefectures: React.FC<ContainerProps> = ({
   prefectures,
   fetchPopulationComposition,
-  removeTotalPopulation
+  removeTotalPopulation,
 }) => {
   const handleChange = (event) => {
-    const prefName = event.currentTarget.name;
-    const prefCode = event.currentTarget.value;
-    const isChecked = event.currentTarget.checked;
+    const prefName = event.currentTarget.name
+    const prefCode = event.currentTarget.value
+    const isChecked = event.currentTarget.checked
 
     if (isChecked) {
-      fetchPopulationComposition({ prefName, prefCode });
+      fetchPopulationComposition({ prefName, prefCode })
     } else {
-      removeTotalPopulation(prefCode);
+      removeTotalPopulation(prefCode)
     }
-  };
+  }
 
   return (
     <StyledAppPrefectures
@@ -79,6 +82,6 @@ const ContainerAppPrefectures: React.FC<ContainerProps> = ({
       handleChange={handleChange}
     />
   )
-};
+}
 
-export default ContainerAppPrefectures;
+export default ContainerAppPrefectures

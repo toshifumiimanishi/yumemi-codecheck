@@ -1,27 +1,27 @@
-import { useState } from 'react';
-import fetch from 'node-fetch';
-import styled from '@emotion/styled';
-import ContainerAppPrefectures from '../components/AppPrefectures';
-import ContainerAppChart from '../components/AppChart';
-import { Prefecture, TotalPopulation } from '../interfaces';
+import { useState } from 'react'
+import fetch from 'node-fetch'
+import styled from '@emotion/styled'
+import ContainerAppPrefectures from '../components/AppPrefectures'
+import ContainerAppChart from '../components/AppChart'
+import { Prefecture, TotalPopulation } from '../interfaces'
 
 type ContainerProps = {
-  result: Prefecture[],
-};
+  result: Prefecture[]
+}
 
 type Props = {
-  className?: string,
-  totalPopulation: TotalPopulation[],
-  fetchPopulationComposition: (prefecture: Prefecture) => void,
-  removeTotalPopulation: (prefCode: number) => void,
-} & ContainerProps;
+  className?: string
+  totalPopulation: TotalPopulation[]
+  fetchPopulationComposition: (prefecture: Prefecture) => void
+  removeTotalPopulation: (prefCode: number) => void
+} & ContainerProps
 
 const Home: React.FC<Props> = ({
   result,
   className,
   totalPopulation,
   fetchPopulationComposition,
-  removeTotalPopulation
+  removeTotalPopulation,
 }) => (
   <div className={className}>
     <h1>都道府県別の総人口推移グラフ</h1>
@@ -32,7 +32,7 @@ const Home: React.FC<Props> = ({
     />
     <ContainerAppChart totalPopulation={totalPopulation} />
   </div>
-);
+)
 
 const StyledHome = styled(Home)`
   &.wrapper {
@@ -47,36 +47,39 @@ const StyledHome = styled(Home)`
 `
 
 const ContainerHome: React.FC<ContainerProps> = ({ result }) => {
-  const [totalPopulation, setTotalPopulation] = useState([]);
+  const [totalPopulation, setTotalPopulation] = useState([])
 
   const fetchPopulationComposition = async ({ prefName, prefCode }) => {
     const res = await fetch(
       `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`,
       {
         headers: {
-          'X-API-KEY': process.env.RESAS_API_KEY
-        }
+          'X-API-KEY': process.env.RESAS_API_KEY,
+        },
       }
-    );
-    const { result } = await res.json();
-    const newTotalPopulation = result.data[0];
+    )
+    const { result } = await res.json()
+    const newTotalPopulation = result.data[0]
 
-    setTotalPopulation([...totalPopulation, {
-      prefName,
-      prefCode,
-      data: newTotalPopulation.data
-    }]);
-  };
+    setTotalPopulation([
+      ...totalPopulation,
+      {
+        prefName,
+        prefCode,
+        data: newTotalPopulation.data,
+      },
+    ])
+  }
 
   const removeTotalPopulation = (prefCode) => {
-    const index = totalPopulation.findIndex(population => {
-      return population.prefCode === prefCode;
-    });
-    const newTotalPopulation = [...totalPopulation];
+    const index = totalPopulation.findIndex((population) => {
+      return population.prefCode === prefCode
+    })
+    const newTotalPopulation = [...totalPopulation]
 
-    newTotalPopulation.splice(index, 1);
-    setTotalPopulation(newTotalPopulation);
-  };
+    newTotalPopulation.splice(index, 1)
+    setTotalPopulation(newTotalPopulation)
+  }
 
   return (
     <StyledHome
@@ -87,24 +90,24 @@ const ContainerHome: React.FC<ContainerProps> = ({ result }) => {
       removeTotalPopulation={removeTotalPopulation}
     />
   )
-};
+}
 
 export async function getStaticProps() {
   const res = await fetch(
     'https://opendata.resas-portal.go.jp/api/v1/prefectures',
     {
       headers: {
-        'X-API-KEY': process.env.RESAS_API_KEY
-      }
+        'X-API-KEY': process.env.RESAS_API_KEY,
+      },
     }
-  );
-  const { result } = await res.json();
+  )
+  const { result } = await res.json()
 
   return {
     props: {
-      result
-    }
-  };
+      result,
+    },
+  }
 }
 
-export default ContainerHome;
+export default ContainerHome
