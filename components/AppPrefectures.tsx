@@ -1,10 +1,11 @@
+import { Dispatch } from 'react'
 import styled from '@emotion/styled'
 import { Prefecture } from '../interfaces'
+import { AddPrefecture, RemovePrefecture, Actions } from '../actions'
 
 type ContainerProps = {
   prefectures: Prefecture[]
-  fetchPopulationComposition: (prefecture: Prefecture) => void
-  removeTotalPopulation: (prefCode: number) => void
+  dispatch: Dispatch<Actions>
 }
 
 type Props = {
@@ -19,7 +20,7 @@ const AppPrefectures: React.FC<Props> = ({
   handleChange,
 }) => (
   <section className={className}>
-    <h2>都道府県</h2>
+    <h2>都靓府県</h2>
     <ul>
       {prefectures.map((prefecture) => (
         <li key={prefecture.prefCode}>
@@ -61,18 +62,37 @@ const StyledAppPrefectures = styled(AppPrefectures)`
 
 const ContainerAppPrefectures: React.FC<ContainerProps> = ({
   prefectures,
-  fetchPopulationComposition,
-  removeTotalPopulation,
+  dispatch,
 }) => {
-  const handleChange = (event) => {
+  const fetchPopulationComposition = async ({ prefName, prefCode }) => {
+    const res = await fetch(
+      `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`,
+      {
+        headers: {
+          'X-API-KEY': process.env.RESAS_API_KEY,
+        },
+      }
+    )
+    const { result } = await res.json()
+    const newTotalPopulation = result.data[0]
+
+    return {
+      prefName,
+      prefCode,
+      data: newTotalPopulation.data,
+    }
+  }
+
+  const handleChange = async (event) => {
     const prefName = event.currentTarget.name
     const prefCode = event.currentTarget.value
     const isChecked = event.currentTarget.checked
 
     if (isChecked) {
-      fetchPopulationComposition({ prefName, prefCode })
+      const populationComposition = await fetchPopulationComposition({ prefName, prefCode })
+      dispatch(AddPrefecture(populationComposition))
     } else {
-      removeTotalPopulation(prefCode)
+      dispatch(RemovePrefecture(prefCode))
     }
   }
 

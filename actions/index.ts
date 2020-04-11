@@ -6,9 +6,9 @@ export const AddPrefecture = (totalPopulation: TotalPopulation) => ({
   payload: totalPopulation,
 })
 
-export const RemovePrefecture = (index: number) => ({
+export const RemovePrefecture = (prefCode: number) => ({
   type: types.REMOVE_PREFECTURE,
-  payload: index,
+  payload: prefCode,
 })
 
 export type Actions = ReturnType<typeof AddPrefecture | typeof RemovePrefecture>
