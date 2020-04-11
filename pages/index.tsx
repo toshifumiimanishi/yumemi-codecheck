@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { NextPage, GetStaticProps } from 'next';
 import fetch from 'node-fetch';
 import styled from '@emotion/styled';
 import AppPrefectures from '../components/AppPrefectures';
@@ -6,25 +7,31 @@ import AppChart from '../components/AppChart';
 import { Prefecture, TotalPopulation } from '../interfaces';
 
 type ContainerProps = {
-  fetchPopulationComposition: (prefecture: Prefecture) => void,
-  removeTotalPopulation: (prefCode: number) => void
+  result: Prefecture[];
 };
 
-type Props = {
-  className: string,
-  result: Prefecture[],
-  totalPopulation: TotalPopulation[],
+type HomeProps = {
+  className?: string;
+  totalPopulation: TotalPopulation[];
+  fetchPopulationComposition: (prefecture: Prefecture) => void;
+  removeTotalPopulation: (prefCode: number) => void;
 } & ContainerProps;
 
-const Home: React.FC<Props> = (props) => (
-  <div className={props.className}>
+const Home: React.FC<HomeProps> = ({
+  className,
+  result,
+  fetchPopulationComposition,
+  removeTotalPopulation,
+  totalPopulation,
+}) => (
+  <div className={className}>
     <h1>都道府県別の総人口推移グラフ</h1>
     <AppPrefectures
-      prefectures={props.result}
-      fetchPopulationComposition={props.fetchPopulationComposition}
-      removeTotalPopulation={props.removeTotalPopulation}
+      prefectures={result}
+      fetchPopulationComposition={fetchPopulationComposition}
+      removeTotalPopulation={removeTotalPopulation}
     />
-    <AppChart totalPopulation={props.totalPopulation} />
+    <AppChart totalPopulation={totalPopulation} />
   </div>
 );
 
@@ -40,7 +47,7 @@ const StyledHome = styled(Home)`
   }
 `
 
-const Container: React.FC<ContainerProps> = (props) => {
+const Container: NextPage<ContainerProps> = ({ result }) => {
   const [totalPopulation, setTotalPopulation] = useState([]);
 
   const fetchPopulationComposition = async ({ prefName, prefCode }) => {
@@ -63,7 +70,7 @@ const Container: React.FC<ContainerProps> = (props) => {
   };
 
   const removeTotalPopulation = (prefCode) => {
-    const index = totalPopulation.findIndex(population => {
+    const index = totalPopulation.findIndex((population) => {
       return population.prefCode === prefCode;
     });
     const newTotalPopulation = [...totalPopulation];
@@ -74,14 +81,17 @@ const Container: React.FC<ContainerProps> = (props) => {
 
   return (
     <StyledHome
-      {...props}
-      fetchPopulationComposition={fetchPopulationComposition}
-      removeTotalPopulation={removeTotalPopulation}
+      {...{
+        result,
+        totalPopulation,
+        fetchPopulationComposition,
+        removeTotalPopulation,
+      }}
     />
-  )
+  );
 };
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async () => {
   const res = await fetch(
     'https://opendata.resas-portal.go.jp/api/v1/prefectures',
     {
