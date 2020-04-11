@@ -1,8 +1,8 @@
-export interface Prefecture {
+export type Prefecture = {
   prefCode: number
   prefName: string
 }
 
-export interface TotalPopulation extends Prefecture {
+export type TotalPopulation = {
   data: { value: number; year: number }[]
-}
+} & Prefecture

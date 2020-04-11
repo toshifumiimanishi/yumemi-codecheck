@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useState, useReducer } from 'react'
 import fetch from 'node-fetch'
 import styled from '@emotion/styled'
 import ContainerAppPrefectures from '../components/AppPrefectures'
 import ContainerAppChart from '../components/AppChart'
 import { Prefecture, TotalPopulation } from '../interfaces'
+import { reducer } from '../reducers'
+import { AddPrefecture, RemovePrefecture } from '../actions';
 
 type ContainerProps = {
   result: Prefecture[]
@@ -48,6 +50,7 @@ const StyledHome = styled(Home)`
 
 const ContainerHome: React.FC<ContainerProps> = ({ result }) => {
   const [totalPopulation, setTotalPopulation] = useState([])
+  const [state, dispatch] = useReducer(reducer, [])
 
   const fetchPopulationComposition = async ({ prefName, prefCode }) => {
     const res = await fetch(
@@ -69,6 +72,7 @@ const ContainerHome: React.FC<ContainerProps> = ({ result }) => {
         data: newTotalPopulation.data,
       },
     ])
+    dispatch(AddPrefecture(totalPopulation))
   }
 
   const removeTotalPopulation = (prefCode) => {
@@ -79,13 +83,14 @@ const ContainerHome: React.FC<ContainerProps> = ({ result }) => {
 
     newTotalPopulation.splice(index, 1)
     setTotalPopulation(newTotalPopulation)
+    dispatch(RemovePrefecture(index))
   }
 
   return (
     <StyledHome
       result={result}
       className="wrapper"
-      totalPopulation={totalPopulation}
+      totalPopulation={state}
       fetchPopulationComposition={fetchPopulationComposition}
       removeTotalPopulation={removeTotalPopulation}
     />
