@@ -1,11 +1,12 @@
-import { useState, useReducer } from 'react'
+import { useReducer } from 'react'
+import { NextPage, GetStaticProps } from 'next'
 import fetch from 'node-fetch'
 import styled from '@emotion/styled'
 import ContainerAppPrefectures from '../components/AppPrefectures'
 import ContainerAppChart from '../components/AppChart'
 import { Prefecture, TotalPopulation } from '../interfaces'
-import { reducer } from '../reducers'
-import { AddPrefecture, RemovePrefecture } from '../actions';
+import { reducer, initialState } from '../reducers'
+import { AddPrefecture, RemovePrefecture } from '../actions'
 
 type ContainerProps = {
   result: Prefecture[]
@@ -48,9 +49,8 @@ const StyledHome = styled(Home)`
   }
 `
 
-const ContainerHome: React.FC<ContainerProps> = ({ result }) => {
-  const [totalPopulation, setTotalPopulation] = useState([])
-  const [state, dispatch] = useReducer(reducer, [])
+const ContainerHome: NextPage<ContainerProps> = ({ result }) => {
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   const fetchPopulationComposition = async ({ prefName, prefCode }) => {
     const res = await fetch(
@@ -64,25 +64,20 @@ const ContainerHome: React.FC<ContainerProps> = ({ result }) => {
     const { result } = await res.json()
     const newTotalPopulation = result.data[0]
 
-    setTotalPopulation([
-      ...totalPopulation,
-      {
+    dispatch(
+      AddPrefecture({
         prefName,
         prefCode,
         data: newTotalPopulation.data,
-      },
-    ])
-    dispatch(AddPrefecture(totalPopulation))
+      })
+    )
   }
 
   const removeTotalPopulation = (prefCode) => {
-    const index = totalPopulation.findIndex((population) => {
+    const index = state.findIndex((population) => {
       return population.prefCode === prefCode
     })
-    const newTotalPopulation = [...totalPopulation]
 
-    newTotalPopulation.splice(index, 1)
-    setTotalPopulation(newTotalPopulation)
     dispatch(RemovePrefecture(index))
   }
 
@@ -97,7 +92,7 @@ const ContainerHome: React.FC<ContainerProps> = ({ result }) => {
   )
 }
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async () => {
   const res = await fetch(
     'https://opendata.resas-portal.go.jp/api/v1/prefectures',
     {
