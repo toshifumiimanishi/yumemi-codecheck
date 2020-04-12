@@ -5,8 +5,8 @@ import styled from '@emotion/styled'
 import ContainerAppPrefectures from '../components/AppPrefectures'
 import ContainerAppChart from '../components/AppChart'
 import { Prefecture, TotalPopulation } from '../interfaces'
+import { Actions } from '../interfaces/actions'
 import { reducer, initialState } from '../reducers'
-import { Actions } from '../actions'
 
 type ContainerProps = {
   result: Prefecture[]
@@ -26,10 +26,7 @@ const Home: React.FC<Props> = ({
 }) => (
   <div className={className}>
     <h1>都道府県別の総人口推移グラフ</h1>
-    <ContainerAppPrefectures
-      prefectures={result}
-      dispatch={dispatch}
-    />
+    <ContainerAppPrefectures prefectures={result} dispatch={dispatch} />
     <ContainerAppChart totalPopulation={totalPopulation} />
   </div>
 )

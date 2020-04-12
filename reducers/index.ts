@@ -1,5 +1,5 @@
 import { TotalPopulation } from '../interfaces'
-import { Actions } from '../actions'
+import { Actions } from '../interfaces/actions'
 
 export const initialState: TotalPopulation[] = []
 

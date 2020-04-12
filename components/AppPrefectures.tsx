@@ -1,7 +1,8 @@
 import { Dispatch } from 'react'
 import styled from '@emotion/styled'
 import { Prefecture } from '../interfaces'
-import { AddPrefecture, RemovePrefecture, Actions } from '../actions'
+import { Actions } from '../interfaces/actions'
+import { AddPrefecture, RemovePrefecture } from '../actions'
 
 type ContainerProps = {
   prefectures: Prefecture[]
@@ -89,7 +90,10 @@ const ContainerAppPrefectures: React.FC<ContainerProps> = ({
     const isChecked = event.currentTarget.checked
 
     if (isChecked) {
-      const populationComposition = await fetchPopulationComposition({ prefName, prefCode })
+      const populationComposition = await fetchPopulationComposition({
+        prefName,
+        prefCode,
+      })
       dispatch(AddPrefecture(populationComposition))
     } else {
       dispatch(RemovePrefecture(prefCode))

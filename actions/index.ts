@@ -10,5 +10,3 @@ export const RemovePrefecture = (prefCode: number) => ({
   type: types.REMOVE_PREFECTURE,
   payload: prefCode,
 })
-
-export type Actions = ReturnType<typeof AddPrefecture | typeof RemovePrefecture>
