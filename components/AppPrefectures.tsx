@@ -1,11 +1,11 @@
-import { Dispatch } from 'react'
+import { useContext } from 'react'
 import styled from '@emotion/styled'
-import { Actions, Prefecture } from '../interfaces'
+import { Prefecture } from '../interfaces'
 import { AddPrefecture, RemovePrefecture } from '../actions'
+import AppContext from '../contexts/AppContext';
 
 type ContainerProps = {
   prefectures: Prefecture[]
-  dispatch: Dispatch<Actions>
 }
 
 type Props = {
@@ -62,8 +62,9 @@ const StyledAppPrefectures = styled(AppPrefectures)`
 
 const ContainerAppPrefectures: React.FC<ContainerProps> = ({
   prefectures,
-  dispatch,
 }) => {
+  const { dispatch } = useContext(AppContext)
+
   const fetchPopulationComposition = async ({ prefName, prefCode }) => {
     const res = await fetch(
       `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`,

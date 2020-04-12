@@ -1,11 +1,12 @@
-import { useReducer, Dispatch } from 'react'
+import { useReducer } from 'react'
 import { NextPage, GetStaticProps } from 'next'
 import fetch from 'node-fetch'
 import styled from '@emotion/styled'
 import ContainerAppPrefectures from '../components/AppPrefectures'
 import ContainerAppChart from '../components/AppChart'
-import { Actions, Prefecture, TotalPopulation } from '../interfaces'
+import { Prefecture, TotalPopulation } from '../interfaces'
 import { reducer, initialState } from '../reducers'
+import AppContext from '../contexts/AppContext';
 
 type ContainerProps = {
   result: Prefecture[]
@@ -14,18 +15,16 @@ type ContainerProps = {
 type Props = {
   className?: string
   totalPopulation: TotalPopulation[]
-  dispatch: Dispatch<Actions>
 } & ContainerProps
 
 const Home: React.FC<Props> = ({
   result,
   className,
   totalPopulation,
-  dispatch,
 }) => (
   <div className={className}>
     <h1>都道府県別の総人口推移グラフ</h1>
-    <ContainerAppPrefectures prefectures={result} dispatch={dispatch} />
+    <ContainerAppPrefectures prefectures={result} />
     <ContainerAppChart totalPopulation={totalPopulation} />
   </div>
 )
@@ -46,12 +45,13 @@ const ContainerHome: NextPage<ContainerProps> = ({ result }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   return (
-    <StyledHome
-      result={result}
-      className="wrapper"
-      totalPopulation={state.totalPopulation}
-      dispatch={dispatch}
-    />
+    <AppContext.Provider value={{ dispatch }}>
+      <StyledHome
+        result={result}
+        className="wrapper"
+        totalPopulation={state.totalPopulation}
+      />
+    </AppContext.Provider>
   )
 }
 
