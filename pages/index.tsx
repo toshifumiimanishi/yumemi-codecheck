@@ -4,8 +4,7 @@ import fetch from 'node-fetch'
 import styled from '@emotion/styled'
 import ContainerAppPrefectures from '../components/AppPrefectures'
 import ContainerAppChart from '../components/AppChart'
-import { Prefecture, TotalPopulation } from '../interfaces'
-import { Actions } from '../interfaces/actions'
+import { Actions, Prefecture, TotalPopulation } from '../interfaces'
 import { reducer, initialState } from '../reducers'
 
 type ContainerProps = {
@@ -50,7 +49,7 @@ const ContainerHome: NextPage<ContainerProps> = ({ result }) => {
     <StyledHome
       result={result}
       className="wrapper"
-      totalPopulation={state}
+      totalPopulation={state.totalPopulation}
       dispatch={dispatch}
     />
   )

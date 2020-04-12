@@ -1,7 +1,6 @@
 import { Dispatch } from 'react'
 import styled from '@emotion/styled'
-import { Prefecture } from '../interfaces'
-import { Actions } from '../interfaces/actions'
+import { Actions, Prefecture } from '../interfaces'
 import { AddPrefecture, RemovePrefecture } from '../actions'
 
 type ContainerProps = {
