@@ -1,6 +1,9 @@
-import { createContext } from 'react';
+import { createContext } from 'react'
 
 const AppContext = createContext({
+  state: {
+    totalPopulation: [],
+  },
   dispatch: null,
 })
 

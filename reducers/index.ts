@@ -1,15 +1,13 @@
+import types from '../types'
 import { Actions, State } from '../interfaces'
 
 export const initialState: State = {
-  totalPopulation: []
+  totalPopulation: [],
 }
 
-export const reducer = (
-  state: State,
-  action: Actions
-): State => {
+export const reducer = (state: State, action: Actions): State => {
   switch (action.type) {
-    case 'ADD_PREFECTURE': {
+    case types.ADD_PREFECTURE: {
       const { totalPopulation } = state
       return {
         ...state,
@@ -17,7 +15,7 @@ export const reducer = (
       }
     }
 
-    case 'REMOVE_PREFECTURE': {
+    case types.REMOVE_PREFECTURE: {
       const { totalPopulation } = state
       const index = totalPopulation.findIndex((population) => {
         return population.prefCode === action.payload

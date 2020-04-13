@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import styled from '@emotion/styled'
 import { Prefecture } from '../interfaces'
 import { AddPrefecture, RemovePrefecture } from '../actions'
-import AppContext from '../contexts/AppContext';
+import AppContext from '../contexts/AppContext'
 
 type ContainerProps = {
   prefectures: Prefecture[]
@@ -60,9 +60,7 @@ const StyledAppPrefectures = styled(AppPrefectures)`
   }
 `
 
-const ContainerAppPrefectures: React.FC<ContainerProps> = ({
-  prefectures,
-}) => {
+const ContainerAppPrefectures: React.FC<ContainerProps> = ({ prefectures }) => {
   const { dispatch } = useContext(AppContext)
 
   const fetchPopulationComposition = async ({ prefName, prefCode }) => {

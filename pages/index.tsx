@@ -4,9 +4,9 @@ import fetch from 'node-fetch'
 import styled from '@emotion/styled'
 import ContainerAppPrefectures from '../components/AppPrefectures'
 import ContainerAppChart from '../components/AppChart'
-import { Prefecture, TotalPopulation } from '../interfaces'
+import { Prefecture } from '../interfaces'
 import { reducer, initialState } from '../reducers'
-import AppContext from '../contexts/AppContext';
+import AppContext from '../contexts/AppContext'
 
 type ContainerProps = {
   result: Prefecture[]
@@ -14,18 +14,13 @@ type ContainerProps = {
 
 type Props = {
   className?: string
-  totalPopulation: TotalPopulation[]
 } & ContainerProps
 
-const Home: React.FC<Props> = ({
-  result,
-  className,
-  totalPopulation,
-}) => (
+const Home: React.FC<Props> = ({ result, className }) => (
   <div className={className}>
     <h1>都道府県別の総人口推移グラフ</h1>
     <ContainerAppPrefectures prefectures={result} />
-    <ContainerAppChart totalPopulation={totalPopulation} />
+    <ContainerAppChart />
   </div>
 )
 
@@ -45,12 +40,8 @@ const ContainerHome: NextPage<ContainerProps> = ({ result }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   return (
-    <AppContext.Provider value={{ dispatch }}>
-      <StyledHome
-        result={result}
-        className="wrapper"
-        totalPopulation={state.totalPopulation}
-      />
+    <AppContext.Provider value={{ state, dispatch }}>
+      <StyledHome result={result} className="wrapper" />
     </AppContext.Provider>
   )
 }

@@ -1,11 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
-import { TotalPopulation } from '../interfaces'
-
-type ContainerProps = {
-  totalPopulation: TotalPopulation[]
-}
+import AppContext from '../contexts/AppContext'
 
 type Props = {
   options: {}
@@ -15,7 +11,8 @@ const AppChart: React.FC<Props> = ({ options }) => (
   <HighchartsReact highcharts={Highcharts} options={options} />
 )
 
-const ContainerAppChart: React.FC<ContainerProps> = ({ totalPopulation }) => {
+const ContainerAppChart: React.FC = () => {
+  const { state } = useContext(AppContext)
   const [options, setOptions] = useState({
     chart: {
       type: 'spline',
@@ -53,7 +50,7 @@ const ContainerAppChart: React.FC<ContainerProps> = ({ totalPopulation }) => {
       },
     })
 
-    totalPopulation.map((population) => {
+    state.totalPopulation.map((population) => {
       const years = population.data.map(({ year }) => year)
 
       xAxis.categories = years
@@ -63,7 +60,7 @@ const ContainerAppChart: React.FC<ContainerProps> = ({ totalPopulation }) => {
 
   const updateSeries = () => {
     const newOptions = { ...options }
-    const newSeries = totalPopulation.map((population) => {
+    const newSeries = state.totalPopulation.map((population) => {
       const data = population.data.map(({ value }) => value)
 
       return {
@@ -78,7 +75,7 @@ const ContainerAppChart: React.FC<ContainerProps> = ({ totalPopulation }) => {
 
   useEffect(() => {
     updateSeries()
-  }, [totalPopulation])
+  }, [state.totalPopulation])
 
   useEffect(() => {
     initializeHighcharts()
