@@ -2,8 +2,8 @@ import { useReducer } from 'react'
 import { NextPage, GetStaticProps } from 'next'
 import fetch from 'node-fetch'
 import styled from '@emotion/styled'
-import ContainerAppPrefectures from '../components/AppPrefectures'
-import ContainerAppChart from '../components/AppChart'
+import AppPrefectures from '../components/AppPrefectures'
+import AppChart from '../components/AppChart'
 import { Prefecture } from '../interfaces'
 import { reducer, initialState } from '../reducers'
 import AppContext from '../contexts/AppContext'
@@ -16,23 +16,31 @@ type Props = {
   className?: string
 } & ContainerProps
 
-const Home: React.FC<Props> = ({ result, className }) => (
+const HomeDOM: React.FC<Props> = ({ result, className }) => (
   <div className={className}>
     <h1>都道府県別の総人口推移グラフ</h1>
-    <ContainerAppPrefectures prefectures={result} />
-    <ContainerAppChart />
+    <AppPrefectures prefectures={result} />
+    <AppChart />
   </div>
 )
 
-const StyledHome = styled(Home)`
+const PresentationalHome = styled(HomeDOM)`
   &.wrapper {
     padding: 32px;
+
+    @media screen and (max-width: 767.8px) {
+      padding: 6.25%;
+    }
   }
 
   > h1 {
     margin-bottom: 24px;
     font-size: 32px;
     text-align: center;
+
+    @media screen and (max-width: 767.8px) {
+      font-size: 22px;
+    }
   }
 `
 
@@ -41,7 +49,7 @@ const ContainerHome: NextPage<ContainerProps> = ({ result }) => {
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>
-      <StyledHome result={result} className="wrapper" />
+      <PresentationalHome result={result} className="wrapper" />
     </AppContext.Provider>
   )
 }
@@ -64,4 +72,6 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-export default ContainerHome
+const Home = ContainerHome
+
+export default Home

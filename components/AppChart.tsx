@@ -7,7 +7,7 @@ type Props = {
   options: {}
 }
 
-const AppChart: React.FC<Props> = ({ options }) => (
+const AppChartDOM: React.FC<Props> = ({ options }) => (
   <HighchartsReact highcharts={Highcharts} options={options} />
 )
 
@@ -81,7 +81,9 @@ const ContainerAppChart: React.FC = () => {
     initializeHighcharts()
   }, [])
 
-  return <AppChart options={options} />
+  return <AppChartDOM options={options} />
 }
 
-export default ContainerAppChart
+const AppChart = ContainerAppChart
+
+export default AppChart

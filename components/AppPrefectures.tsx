@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import styled from '@emotion/styled'
 import { Prefecture } from '../interfaces'
 import { AddPrefecture, RemovePrefecture } from '../actions'
@@ -14,13 +14,13 @@ type Props = {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const AppPrefectures: React.FC<Props> = ({
+const AppPrefecturesDOM: React.FC<Props> = ({
   className,
   prefectures,
   handleChange,
 }) => (
   <section className={className}>
-    <h2>都靓府県</h2>
+    <h2>都道府県</h2>
     <ul>
       {prefectures.map((prefecture) => (
         <li key={prefecture.prefCode}>
@@ -39,7 +39,7 @@ const AppPrefectures: React.FC<Props> = ({
   </section>
 )
 
-const StyledAppPrefectures = styled(AppPrefectures)`
+const PresentationalAppPrefectures = styled(AppPrefecturesDOM)`
   margin: auto;
   width: 100%;
   max-width: 960px;
@@ -51,17 +51,52 @@ const StyledAppPrefectures = styled(AppPrefectures)`
     font-size: 24px;
     background-color: #000;
     color: #fff;
+
+    @media screen and (max-width: 767.8px) {
+      font-size: 16px;
+    }
   }
 
   > ul {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, auto));
     gap: 24px;
+
+    @media screen and (max-width: 767.8px) {
+      grid-template-columns: repeat(auto-fill, minmax(80px, auto));
+      font-size: 12px;
+    }
   }
 `
 
 const ContainerAppPrefectures: React.FC<ContainerProps> = ({ prefectures }) => {
   const { dispatch } = useContext(AppContext)
+
+  // Responsive Web Design
+  //
+  // const [mediaQuery, setMediaQuery] = useState(() => {
+  //   if (typeof window !== 'undefined') {
+  //     return {
+  //       screen: window.innerWidth >= 768 ? 'medium' : 'small',
+  //     }
+  //   } else {
+  //     return {
+  //       screen: null,
+  //     }
+  //   }
+  // })
+
+  // useEffect(() => {
+  //   const mq = window.matchMedia('(min-width: 768px)')
+  //   const handleChangeMediaQuery = (mq) => {
+  //     if (mq.matches) {
+  //       setMediaQuery({ screen: 'medium' })
+  //     } else {
+  //       setMediaQuery({ screen: 'small' })
+  //     }
+  //   }
+  //   mq.addListener(handleChangeMediaQuery)
+  // }, [])
 
   const fetchPopulationComposition = async ({ prefName, prefCode }) => {
     const res = await fetch(
@@ -99,11 +134,13 @@ const ContainerAppPrefectures: React.FC<ContainerProps> = ({ prefectures }) => {
   }
 
   return (
-    <StyledAppPrefectures
+    <PresentationalAppPrefectures
       prefectures={prefectures}
       handleChange={handleChange}
     />
   )
 }
 
-export default ContainerAppPrefectures
+const AppPrefectures = ContainerAppPrefectures
+
+export default AppPrefectures
