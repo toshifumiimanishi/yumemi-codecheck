@@ -72,32 +72,6 @@ const PresentationalAppPrefectures = styled(AppPrefecturesDOM)`
 const ContainerAppPrefectures: React.FC<ContainerProps> = ({ prefectures }) => {
   const { dispatch } = useContext(AppContext)
 
-  // Responsive Web Design
-  //
-  // const [mediaQuery, setMediaQuery] = useState(() => {
-  //   if (typeof window !== 'undefined') {
-  //     return {
-  //       screen: window.innerWidth >= 768 ? 'medium' : 'small',
-  //     }
-  //   } else {
-  //     return {
-  //       screen: null,
-  //     }
-  //   }
-  // })
-
-  // useEffect(() => {
-  //   const mq = window.matchMedia('(min-width: 768px)')
-  //   const handleChangeMediaQuery = (mq) => {
-  //     if (mq.matches) {
-  //       setMediaQuery({ screen: 'medium' })
-  //     } else {
-  //       setMediaQuery({ screen: 'small' })
-  //     }
-  //   }
-  //   mq.addListener(handleChangeMediaQuery)
-  // }, [])
-
   const fetchPopulationComposition = async ({ prefName, prefCode }) => {
     const res = await fetch(
       `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`,
