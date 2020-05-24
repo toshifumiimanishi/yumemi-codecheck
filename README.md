@@ -1,6 +1,6 @@
 # 都道府県別の総人口推移グラフ
 
-> 都道府県別の総人口推移グラフを表示する SPA（Single Page Application）
+都道府県別の総人口推移グラフを表示する NuxtJS 製の SPA（Single Page Application） です。Next.js 製は[こちら](https://github.com/toshifumiimanishi/yumemi-codecheck/tree/master-nextjs)を参照ください。
 
 ## Build Setup
 
