@@ -68,8 +68,12 @@ typings/
 # nuxt.js build output
 .nuxt
 
-# Nuxt generate
-dist
+# compiled output
+/dist
+/tmp
+/out-tsc
+# Only exists if Bazel was run
+/bazel-out
 
 # vuepress build output
 .vuepress/dist
@@ -77,14 +81,39 @@ dist
 # Serverless directories
 .serverless
 
-# IDE / Editor
-.idea
-
 # Service worker
 sw.*
 
-# macOS
+# System Files
 .DS_Store
+Thumbs.db
 
 # Vim swap files
 *.swp
+
+# profiling files
+chrome-profiler-events*.json
+speed-measure-plugin*.json
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# misc
+/.sass-cache
+/connect.lock
+/libpeerconnection.log
+testem.log
