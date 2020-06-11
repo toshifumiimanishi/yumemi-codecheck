@@ -4,7 +4,12 @@
     <ul class="prefecture_list">
       <li class="prefecture_item" *ngFor="let prefecture of prefectures">
         <label>
-          <input type="checkbox">
+          <input
+            type="checkbox"
+            [value]="prefecture.prefCode"
+            [name]="prefecture.prefName"
+            (change)="onCheckedPrefName($event)"
+          />
           {{ prefecture.prefName }}
         </label>
       </li>
