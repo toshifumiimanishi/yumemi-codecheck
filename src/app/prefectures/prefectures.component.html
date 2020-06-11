@@ -1,0 +1,13 @@
+<div class="prefecture">
+  <div class="prefecture_container">
+    <h2 class="prefecture_heading">都道府県</h2>
+    <ul class="prefecture_list">
+      <li class="prefecture_item" *ngFor="let prefecture of prefectures">
+        <label>
+          <input type="checkbox">
+          {{ prefecture.prefName }}
+        </label>
+      </li>
+    </ul>
+  </div>
+</div>
