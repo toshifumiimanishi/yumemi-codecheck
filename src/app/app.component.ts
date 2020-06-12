@@ -22,4 +22,14 @@ export class AppComponent {
       data: totalPopulation.data
     }];
   }
+
+  removeTotalPopulation(prefCode) {
+    const newTotalPopulation = [...this.totalPopulation]
+    const index = newTotalPopulation.findIndex(population => {
+      return population.prefCode === prefCode;
+    });
+
+    newTotalPopulation.splice(index, 1);
+    this.totalPopulation = newTotalPopulation;
+  }
 }

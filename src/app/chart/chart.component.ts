@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import * as Highcharts from 'highcharts';
 
 @Component({
@@ -6,7 +6,7 @@ import * as Highcharts from 'highcharts';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss']
 })
-export class ChartComponent implements OnInit, OnChanges {
+export class ChartComponent implements OnChanges {
   public chartOptions: any = {
     chart: {
       type: 'spline'
@@ -36,10 +36,6 @@ export class ChartComponent implements OnInit, OnChanges {
   @Input() totalPopulation;
 
   constructor() {}
-
-  ngOnInit() {
-    Highcharts.chart('container', this.chartOptions)
-  }
 
   ngOnChanges() {
     this.updateSeries()

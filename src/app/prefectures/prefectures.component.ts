@@ -11,6 +11,7 @@ export class PrefecturesComponent implements OnInit {
   prefectures;
 
   @Output() checked = new EventEmitter
+  @Output() unchecked = new EventEmitter
 
   constructor(private prefecturesService: PrefecturesService) {}
 
@@ -25,6 +26,8 @@ export class PrefecturesComponent implements OnInit {
 
     if (isChecked) {
       this.checked.emit({ prefName, prefCode });
+    } else {
+      this.unchecked.emit(prefCode)
     }
   }
 }
