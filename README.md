@@ -1,6 +1,9 @@
-# 都道府県別の総人口推移グラフ
+## 都道府県別の総人口推移グラフ
 
-都道府県別の総人口推移グラフを表示する NuxtJS 製の SPA（Single Page Application） です。Next.js 製は[こちら](https://github.com/toshifumiimanishi/yumemi-codecheck/tree/master-nextjs)を参照ください。
+都道府県別の総人口推移グラフを表示する NuxtJS 製の SPA（Single Page Application） です。他フレームワークで開発されたリンク先は以下の通りです。
+
+- [Next.js](https://github.com/toshifumiimanishi/yumemi-codecheck/tree/master-nextjs)
+- [Angular](https://github.com/toshifumiimanishi/yumemi-codecheck/tree/master-angular)
 
 ## Build Setup
 
