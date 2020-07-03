@@ -6,11 +6,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import AppPrefectures from '~/components/AppPrefectures.vue';
 import AppChart from '~/components/AppChart.vue';
+import { Prefecture, TotalPopulation } from '~/types';
 
-export default {
+export default Vue.extend({
   components: {
     AppPrefectures,
     AppChart
@@ -18,8 +20,8 @@ export default {
 
   data() {
     return {
-      prefectures: [],
-      totalPopulation: []
+      prefectures: [] as Array<Prefecture>,
+      totalPopulation: [] as Array<TotalPopulation>
     };
   },
 
@@ -35,7 +37,7 @@ export default {
   },
 
   methods: {
-    async fetchPopulationComposition({ prefName, prefCode }) {
+    async fetchPopulationComposition({ prefName, prefCode }: Prefecture) {
       const { result } = await this.$axios.$get(`/population/composition/perYear?prefCode=${prefCode}`, {
         headers: {
          'X-API-KEY': process.env.RESAS_API_KEY
@@ -51,7 +53,7 @@ export default {
       }];
     },
 
-    removeTotalPopulation(prefCode) {
+    removeTotalPopulation(prefCode: Prefecture['prefCode']) {
       const index = this.totalPopulation.findIndex(population => {
         return population.prefCode === prefCode;
       });
@@ -59,7 +61,7 @@ export default {
       this.totalPopulation.splice(index, 1);
     },
   }
-};
+});
 </script>
 
 <style>
