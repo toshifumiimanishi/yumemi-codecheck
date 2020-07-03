@@ -14,11 +14,14 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue, { PropType } from 'vue';
+import { Prefecture } from '~/types';
+
+export default Vue.extend({
   props: {
     prefectures: {
-      type: Array
+      type: Array as PropType<Prefecture[]>
     }
   },
 
@@ -29,10 +32,10 @@ export default {
   },
 
   methods: {
-    onCheckedPrefName(event) {
-      const prefName = event.currentTarget.name;
-      const prefCode = event.currentTarget.value;
-      const isChecked = event.currentTarget.checked;
+    onCheckedPrefName({ currentTarget }: { currentTarget: HTMLInputElement }) {
+      const prefName = currentTarget.name;
+      const prefCode = currentTarget.value;
+      const isChecked = currentTarget.checked;
 
       if (isChecked) {
         this.$emit('check', { prefName, prefCode });
@@ -41,7 +44,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="scss">

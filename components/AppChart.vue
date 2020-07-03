@@ -2,9 +2,11 @@
   <highcharts class="chart" :options="chartOptions"></highcharts>
 </template>
 
-<script>
-import Highcharts from 'highcharts'
-import { Chart } from 'highcharts-vue'
+<script lang="ts">
+import Vue, { PropType } from 'vue';
+import Highcharts, { Options } from 'highcharts';
+import { Chart } from 'highcharts-vue';
+import { TotalPopulation } from '~/types';
 
 Highcharts.setOptions({
   lang: {
@@ -13,10 +15,10 @@ Highcharts.setOptions({
   },
 });
 
-export default {
+export default Vue.extend({
   props: {
     totalPopulation: {
-      type: Array
+      type: Array as PropType<TotalPopulation[]>
     }
   },
 
@@ -50,23 +52,24 @@ export default {
           }
         },
         series: []
-      }
+      } as Options
     };
   },
 
   methods: {
     updateCategoriesOnce() {
       const { xAxis } = this.chartOptions;
-      const isUpdated = xAxis.categories.length > 0;
 
-      if (!isUpdated) {
-        const totalPopulation = this.totalPopulation;
+      if (xAxis && 'categories' in xAxis) {
+        const isUpdated = xAxis.categories ? xAxis.categories.length > 0 : null;
+        if (!isUpdated) {
+          const totalPopulation = this.totalPopulation;
 
-        totalPopulation.map(population => {
-          const years = population.data.map(({ year }) => year);
-
-          xAxis.categories = years;
-        });
+          totalPopulation.map(population => {
+            const years = population.data.map(({ year }) => year);
+            xAxis.categories = years as any;
+          });
+        }
       }
     },
 
@@ -81,7 +84,7 @@ export default {
         }
       })
 
-      this.chartOptions.series = newSeries;
+      this.chartOptions.series = newSeries as any;
     }
   },
 
@@ -91,7 +94,7 @@ export default {
       this.updateSeries();
     }
   }
-};
+});
 </script>
 
 <style>
