@@ -9,6 +9,8 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
+    "serve": "nuxt serve",
+    "export": "nuxt export",
     "generate": "nuxt generate",
     "test:unit": "jest"
   },
