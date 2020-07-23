@@ -2,6 +2,7 @@ import pkg from './package'
 
 export default {
   mode: 'spa',
+  target: 'static',
   env: {
     RESAS_API_KEY: process.env.RESAS_API_KEY
   },
